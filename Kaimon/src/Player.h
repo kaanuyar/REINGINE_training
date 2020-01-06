@@ -22,6 +22,7 @@ public:
 
 	// for testing 
 	AABB& getAABB();
+	Vector3f getEdgeLengthVec();
 
 private:
 	EventHandler m_eventHandler;
@@ -40,4 +41,5 @@ private:
 	AABB m_aabb;
 	Vector3f m_prevTranslationVector;
 	Game* m_game;
+	Vector3f m_edgeLengthVec;
 };

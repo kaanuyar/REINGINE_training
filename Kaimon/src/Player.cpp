@@ -4,8 +4,9 @@
 #include <cmath>
 
 Player::Player(Game* game, RawEntity & rawEntity,  Vector3f worldTranslation, Vector3f worldRotation, Vector3f worldScale)
-	: InteractableEntity(rawEntity, worldTranslation, worldRotation, worldScale), m_aabb(getVertices()),
-		m_prevTranslationVector(worldTranslation.x, worldTranslation.y, worldTranslation.z), m_game(game)
+	: InteractableEntity(rawEntity, worldTranslation, worldRotation, worldScale), m_aabb(*this),
+		m_prevTranslationVector(worldTranslation.x, worldTranslation.y, worldTranslation.z), m_game(game),
+		m_edgeLengthVec(m_aabb.getWorldMaxVertex() - m_aabb.getWorldMinVertex())
 {
 }
 
@@ -81,7 +82,7 @@ void Player::addRayCaster(RayCaster* rayCasterPtr)
 
 void Player::restartPosition()
 {
-	setTranslationVector(Vector3f(0.0f, 0.0f, 0.0f));
+	setTranslationVector(Vector3f(MathCalc::generateRandomFloat(-10.0f + m_edgeLengthVec.x / 2, 10.0f - m_edgeLengthVec.x / 2), 0.0f, MathCalc::generateRandomFloat(-10.0f + m_edgeLengthVec.x / 2, 10.0f - m_edgeLengthVec.x / 2)));
 	m_aabb.update(*this);
 	m_eventHandler.getEventList().clear();
 }
@@ -110,7 +111,7 @@ void Player::collisionResolution(Obstacle* obstacle)
 
 void Player::collisionResolution(Target* target)
 {
-	m_game->onSuccess(*this, *target);
+	m_game->onSuccess();
 }
 
 AABB& Player::getAABB()
@@ -118,6 +119,10 @@ AABB& Player::getAABB()
 	return m_aabb;
 }
 
+Vector3f Player::getEdgeLengthVec()
+{
+	return m_edgeLengthVec;
+}
 
 void Player::moveForward(float deltaTime)
 {
