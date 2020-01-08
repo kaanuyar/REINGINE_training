@@ -26,9 +26,9 @@ Game::Game()
 void Game::update(float deltaTime)
 {
 	if (m_timer.isDeltaTimeFromLastRestartClock(10.0f))
-		this->onRestart();
+		this->onFailure();
 
-	float angleInDegrees = m_pythonExtension.callPythonAI(m_player, m_target, m_barrier, false);
+	float angleInDegrees = m_pythonExtension.callPythonAI(m_player, m_target, m_barrier, false, false);
 	m_player.getEventHandler().addEventToList(Event(Event::MOVE_TO_ANGLE, false, angleInDegrees));
 	//uncomment previous line for AI to work
 	//m_player.getEventHandler().addEventToList(Event(Event::MOVE_TO, false, m_target.getTranslationVector().x, m_target.getTranslationVector().y, m_target.getTranslationVector().z));
@@ -43,7 +43,13 @@ void Game::update(float deltaTime)
 
 void Game::onSuccess()
 {
-	m_pythonExtension.callPythonAI(m_player, m_target, m_barrier, true);
+	m_pythonExtension.callPythonAI(m_player, m_target, m_barrier, true, false);
+	this->onRestart();
+}
+
+void Game::onFailure()
+{
+	m_pythonExtension.callPythonAI(m_player, m_target, m_barrier, false, true);
 	this->onRestart();
 }
 
