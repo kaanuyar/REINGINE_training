@@ -14,4 +14,12 @@ public:
 	{
 		return Vector3f(this->x - vec.x, this->y - vec.y, this->z - vec.z);
 	}
+
+	bool operator==(const Vector3f& vec)
+	{
+		if (this->x == vec.x && this->y == vec.y && this->z == vec.z)
+			return true;
+		else
+			return false;
+	}
 };

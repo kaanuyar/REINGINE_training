@@ -32,7 +32,7 @@ private:
 	ViewFrustum m_frustum;
 	Camera m_camera;
 
-	RawEntity m_rawEntity, m_rawEntity2, m_rawTerrain;
+	RawEntity m_rawEntity, m_rawEntity2, m_rawEntity3;
 
 	Entity m_terrain;
 	Player m_player;
@@ -47,4 +47,8 @@ private:
 	RayCaster m_rayCaster;
 	PythonExtension m_pythonExtension;
 	Timer m_timer;
+
+	// Constants
+	const Vector3f TERRAIN_MAX_VEC { -5.0f, 0.0f, -5.0f };
+	const Vector3f TERRAIN_MIN_VEC { 5.0f, 0.0f, 5.0f };
 };
